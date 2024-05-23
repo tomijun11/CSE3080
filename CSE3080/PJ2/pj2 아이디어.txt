@@ -1,0 +1,105 @@
+트리 구조 생성후 출력
+static int 사용해서 (또는 parameter) preorder + depth 함께 출력 (depth에 static 사용)
+
+postfix
+가능한 movement : 
+Lchild -> parent ( L < P)
+Lchild -> Rchild (L <R)
+RChild -> parent (R > P)
+
+1st : (판정순서 root -> L/R 구분) 루트노드 (1st = Last인 경우) 
+or LeftMost leafnode (LChild) : 2nd 노드 > 1st 노드 
+or LeftMost leaftnode (RChild) 2nd 노드 < 1st 노드
+
+Last : Root node (no parent)
+
+
+
+---------------------
+read 1 -> cur node (key값도 입력)
+
+while
+{
+
+read 1 -> next node (key값도 입력)
+if next == null -> cur = root node, break
+
+
+if (next->key > cur->key)
+{
+	next->lchild = cur
+	attach(&list,cur)
+}
+else
+{
+	next->rchild = cur
+	if (cur->lchild != null)
+	{
+		 temp = findptr(list,next->key)
+		if (temp != null)
+		{
+			next->lchild = temp
+		}
+	}
+	
+}
+
+cur = next
+
+}
+
+preorder로 출력
+
+
+---------
+LChildList : 단순 list (탐색 <-방향, 무조건 1st자리에 삽입됨 (1<-2<-3<-listptr순)
+rchild 삽입때 rchild->lchild 탐색시 listptr부터 <- 방향으로 key보다 작은 값을 갖는 항목 주소 반환 + 다음 항목들은 erase로 전부 삭제
+
+void attach(link* listptr, treeptr address)
+{
+	//무조건 list의 1st자리에 삽입
+	x = malloc (new list_node)
+	x->data = address
+	if (*link == null)
+	{
+		node->link = *list
+		*list = node
+	}
+	else
+	{
+		node->link = null
+		*list = node
+	}
+}
+
+treeptr findptr (link listptr, int key)
+{
+	if (listptr == null)
+		return null
+	else
+	{
+		for(;listptr;listptr = listptr->link)
+		{
+			if (listptr->key<key) // found		
+			{	
+				erase(listptr->link)
+				listptr->link = null
+				return listptr
+			}
+		}
+		return null
+	}
+} 
+
+void erase (link listptr)
+{
+	for( ;listptr;)
+	{
+		listptr temp = listptr
+		listptr = listptr->link
+		free(temp)
+	}
+}
+
+-----------
+

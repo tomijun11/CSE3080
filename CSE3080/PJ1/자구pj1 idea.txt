@@ -1,0 +1,58 @@
+자구 플젝1 idea
+
+Cur Next
+( + ( = 2*
+( + ) = return 2
+( + [ = 2*
+( + ] = break (Exception)
+
+[ + ( = 3*
+[ + ) = break (Exception)
+[ + [ = 3*
+[ + ] = return 3
+
+) + ( = +
+) + ) = 단순 pop (nesting lv --1)
+) + [ = +
+) + ] = 단순 pop (nesting lv --1)
+
+] + ( = +
+] + ) = 단순 pop (nesting lv --1)
+] + [ = +
+] + ] = 단순 pop (nesting lv --1)
+
++ eos 도달시 Stack에 남은거 존재 -> break (Exception)
+Exception 발생시 결과값 SetTo 0
+
+parser 및 4x4 operation table 제작후 while로 입력값 연산후 return 결과값
+
+-----------------------------------------------
+0. enum ( : L2 (-1) / [ : L3 (-2) / ) R2 (-3) / ] R3 (-4)
+ 
+1. reader : fread 사용 (eos시 break) -> All Pop : Ret에 모든 요소 덧셈 / "(" 또는 [ 나올경우 (음수) 0 리턴 + break
+-> Scanf로 읽음
+
+2. linked Stack : item int / link ptr 구조, 단일스택 / pop push 구현
+
+3. parser (GetToken) : STR에서 enum값을 반환함 
+
+4. break 전용 erase list 제작 (모든 stack의 node free)
+
+5. while (cur token ==  eos) 
+if (top == null)
+(,[ -> (, [ 의 enum값 Push (음수)
+], ) -> break (0 리턴) + erase
+else
+// (선택) 4*stack(Top->data) + cur token 을 switch로 [Case 쌓기]
+
+CurToken = (,[ -> (, [ 의 enum값 Push (음수)
+CurToken = ),] ->
+0) stack = empty : break
+1) stack = ( : ) : 2를 Push / ] : break
+2) stack = [ : ) : break / ] : 3을 Push
+3) stack = Number : 
+) : (가 나올때까지 Pop (모든 Pop은 Sum += Number), ( 나오면 Push Sum / [가 나오면 break, (가 안나오고 Stack Null되면 break
+] : [가 나올때까지 Pop (모든 Pop은 Sum += Number), [나오면 Push Sum / (가 나오면 break, [가 안나오고 Stack Null되면 break
+
+
+
